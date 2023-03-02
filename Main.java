@@ -4,15 +4,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Main extends Application {
+	
+	private static Scene gameScene;
+    private static Scene menuScene;
 
 	private static final Pane root = new Pane();
 	private static double t = 0;
@@ -103,24 +111,66 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		Scene scene = new Scene(createContent(), 800, 500);
-		primaryStage.setScene(scene);
-		primaryStage.show();
+        // Create the game scene
+        gameScene = new Scene(createContent(), 800, 500);
 
-		scene.setOnKeyPressed(event -> {
-			switch (event.getCode()) {
-			case LEFT:
-				player.moveLeft();
-				break;
-			case RIGHT:
-				player.moveRight();
-				break;
-			case SPACE:
-				player.shoot();
-				break;
-			}
-		});
-	}
+        // Create the menu scene
+        Label titleLabel = new Label("Space Invaders");
+        titleLabel.setFont(new javafx.scene.text.Font("Impact", 48));
+        Button newGameButton = new Button("New Game");
+        
+        newGameButton.setOnAction(event -> {
+            // Start a new game
+            lives = 3;
+            kills = 0;
+            createEnemies();
+            player.dead = false;
+            root.getChildren().removeIf(node -> {
+                Object type = node.getProperties().get("type");
+                return type != null && (type.equals("playerbullet") || type.equals("enemybullet"));
+            });
+            primaryStage.setScene(gameScene);
+        });
+        
+        Button instructionsButton = new Button("Instructions");
+        instructionsButton.setOnAction(event -> {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Instructions");
+            alert.setHeaderText("How to Play");
+            alert.setContentText("Use the arrow keys to move and spacebar to shoot.\n" +
+                    "Defeat all the enemies to advance to the next stage.\n");
+            alert.showAndWait();
+        });
+        
+        Button exitButton = new Button("Exit");
+        exitButton.setOnAction(event -> {
+            // Exit the game
+            primaryStage.close();
+        });
+        
+        VBox menuBox = new VBox(titleLabel, newGameButton, instructionsButton, exitButton);
+        menuBox.setAlignment(Pos.CENTER);
+        menuBox.setSpacing(20);
+        menuScene = new Scene(menuBox, 800, 500);
+
+        // Show the menu scene
+        primaryStage.setScene(menuScene);
+        primaryStage.show();
+
+        gameScene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case LEFT:
+                    player.moveLeft();
+                    break;
+                case RIGHT:
+                    player.moveRight();
+                    break;
+                case SPACE:
+                    player.shoot();
+                    break;
+            }
+        });
+    }
 
 	private static class Sprite extends Rectangle {
 
