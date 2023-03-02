@@ -34,8 +34,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Main extends Application {
 	
-	//game scenes
-	private static Scene gameScene;
+    //game scenes
+    private static Scene gameScene;
     private static Scene menuScene;
     private static Scene gameOverScene;
     
@@ -50,7 +50,7 @@ public class Main extends Application {
     private static int shoot_delay = 500; //time between the players shots in ms
     private static int player_bullet_speed = 10;
     private static int lives = 3;
-	private static int kills = 0;
+    private static int kills = 0;
     private static final int enemies = 10;
     private static int enemy_bullet_speed = 10;
     
