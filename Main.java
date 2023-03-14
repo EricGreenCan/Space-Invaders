@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -28,6 +29,8 @@ public class Main extends Application {
         menuPane.setOnPlayClicked(event -> showGame());
         Scene scene = new Scene(menuPane, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
     
@@ -35,6 +38,8 @@ public class Main extends Application {
         GamePane gamePane = new GamePane();
         Scene scene = new Scene(gamePane, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
         gamePane.runGame();
     }

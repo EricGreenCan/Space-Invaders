@@ -1,47 +1,70 @@
 package application;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 
 public class PauseMenu {
 
-    private Stage stage;
+    private StackPane overlay;
     private Button resumeButton;
     private Button quitButton;
-    
-    public PauseMenu() {
-        stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setResizable(false);
-        stage.setTitle("Paused");
+    private GamePane gamePane;
+    private KeyListener keyListener;
+    private Label titleLabel;
+
+    public PauseMenu(GamePane gamePane) {
+        this.gamePane = gamePane;
+
+        // create the pause menu overlay
+        overlay = new StackPane();
+        overlay.setAlignment(Pos.CENTER);
+        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
+
+        // set overlay to cover entire screen
+        Screen screen = Screen.getPrimary();
+        double screenWidth = screen.getVisualBounds().getWidth();
+        double screenHeight = screen.getVisualBounds().getHeight();
+        overlay.setPrefSize(screenWidth, screenHeight);
         
+        titleLabel = new Label("Paused");
+	    titleLabel.setFont(new javafx.scene.text.Font("Impact", 72));
+	    titleLabel.setTextFill(Color.WHITE);
+	    
+        // buttons
         resumeButton = new Button("Resume");
+        resumeButton.setStyle("-fx-background-color: #FFD700; -fx-text-fill: black;");
         resumeButton.setOnAction(e -> {
-            stage.close();
+            keyListener.setPauseFalse();
+            hide();
         });
-        
-        quitButton = new Button("Quit");
+
+        quitButton = new Button("Main Menu");
+        quitButton.setStyle("-fx-background-color: #FFD700; -fx-text-fill: black;");
         quitButton.setOnAction(e -> {
             System.exit(0);
         });
-        
-        VBox root = new VBox(10);
+
+        VBox root = new VBox(50);
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(resumeButton, quitButton);
-        
-        Scene scene = new Scene(root, 200, 100);
-        stage.setScene(scene);
+        root.getChildren().addAll(titleLabel, resumeButton, quitButton);
+
+        overlay.getChildren().add(root);
     }
-    
-    public void show() {
-        stage.show();
+
+    public void show(KeyListener k) {
+
+        gamePane.getChildren().add(overlay);
+        keyListener = k; //pass keylistener through to call method to reset pause variable
     }
-    
+
     public void hide() {
-        stage.hide();
+        gamePane.getChildren().remove(overlay);
     }
 }
