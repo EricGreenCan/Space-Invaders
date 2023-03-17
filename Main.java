@@ -11,7 +11,7 @@ public class Main extends Application {
     
     private Stage primaryStage;
     private Screen screen;
-    private	Rectangle2D bounds;
+    private Rectangle2D bounds;
     private double WIDTH; 
     private double HEIGHT;
     
@@ -25,6 +25,7 @@ public class Main extends Application {
     }
     
     public void showMainMenu() {
+
         MenuPane menuPane = new MenuPane();
         menuPane.setOnPlayClicked(event -> showGame());
         Scene scene = new Scene(menuPane, WIDTH, HEIGHT);
@@ -45,11 +46,10 @@ public class Main extends Application {
     }
     
     public void showGameOverMenu() {
-    	//TODO
+        // TODO
     }
     
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

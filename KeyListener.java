@@ -29,8 +29,6 @@ public class KeyListener {
 
     public void start() {
  
-
-
 	    scene.setOnKeyPressed(evt->{
             downKeys.add(evt.getCode());
         });
@@ -38,7 +36,6 @@ public class KeyListener {
         scene.setOnKeyReleased(evt->{
             downKeys.remove(evt.getCode());
         });
-
 
         Timeline timer = new Timeline(new KeyFrame(
             javafx.util.Duration.millis(16), ae -> {
@@ -61,8 +58,6 @@ public class KeyListener {
         KeyCode keyCode = KeyCode.valueOf(KEY);
         return downKeys.contains(keyCode);
     }
-    
-
     
     public void setPauseTrue() {
         isPaused = true;

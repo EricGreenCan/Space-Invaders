@@ -1,10 +1,8 @@
 package application;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -61,7 +59,7 @@ public class PauseMenu {
     public void show(KeyListener k) {
 
         gamePane.getChildren().add(overlay);
-        keyListener = k; //pass keylistener through to call method to reset pause variable
+        keyListener = k; 
     }
 
     public void hide() {
