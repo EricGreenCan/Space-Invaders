@@ -3,28 +3,29 @@ package application;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.geometry.Bounds;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class Bullet extends Rectangle {
-	
-	private double speed;
-	private double dx;
-	private double dy;
-	
-	public Bullet(double w, double h, double x, double y, Color clr, double direction, String type) {
-		super(w, h, clr);
-		setLayoutX(x);
-		setLayoutY(y);
-		speed = 50;
-		double angle = Math.toRadians(direction);
-		setRotate(angle);
-		dx = speed * Math.cos(angle);
-		dy = -speed * Math.sin(angle);
-		DropShadow dropShadow = new DropShadow(10, Color.WHITE);
+public class PowerUp extends Rectangle {
+
+    private double xPos;
+    private double yPos;
+    private String type;
+
+    public PowerUp(double w, double h, double x, double y, Color clr, String powerup_type, Image img) {
+        super(w, h, clr);
+        xPos = x;
+        yPos = y;
+        setLayoutX(xPos);
+        setLayoutY(yPos);
+        type = powerup_type;
+        setFill(new ImagePattern(img));
+
+        DropShadow dropShadow = new DropShadow(10, Color.WHITE);
         dropShadow.setSpread(0.5);
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0), new KeyValue(dropShadow.radiusProperty(), 11)),
@@ -37,37 +38,22 @@ public class Bullet extends Rectangle {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         setEffect(dropShadow);
-	}
-	
-	public void update() {
-		double newX = getLayoutX() + dx;
-		double newY = getLayoutY() + dy;
-		setLayoutX(newX);
-		setLayoutY(newY);
-	}
-	
-	public boolean isOutOfScreen() {
-		double newX = getLayoutX() + dx;
-		double newY = getLayoutY() + dy;
-		try 
-		{
-			
-			Bounds bounds = getParent().getBoundsInLocal();
-			if (newX < 0 || newX > bounds.getMaxX() || newY < -200 || newY > (bounds.getMaxY())) 
-			{
-				return true;		
-			}
-			
-			return false;
-			
-		} 
-		catch(Exception e) 
-		{
-			return false;
-		}			
-	}
-	
-	public void render() {
-		//NA
-	}
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getXPos() {
+        return xPos;
+    }
+
+    public double getYPos() {
+        return yPos;
+    }
+
+    public void update() {
+        setLayoutX(xPos);
+        setLayoutY(yPos);
+    }
 }

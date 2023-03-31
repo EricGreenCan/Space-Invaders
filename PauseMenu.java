@@ -32,19 +32,29 @@ public class PauseMenu {
         overlay.setPrefSize(screenWidth, screenHeight);
         
         titleLabel = new Label("Paused");
-	    titleLabel.setFont(new javafx.scene.text.Font("Impact", 72));
+	    titleLabel.setFont(new javafx.scene.text.Font("Impact", 115));
 	    titleLabel.setTextFill(Color.WHITE);
 	    
         // buttons
         resumeButton = new Button("Resume");
-        resumeButton.setStyle("-fx-background-color: #FFD700; -fx-text-fill: black;");
+        resumeButton.setOnMouseEntered(event -> resumeButton.setStyle("-fx-background-color: #E0E0E0; -fx-text-fill: white; -fx-background-radius: 0;"));
+        resumeButton.setOnMouseExited(event -> resumeButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;"));
+        resumeButton.setOnMousePressed(event -> resumeButton.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: white; -fx-background-radius: 0;"));
+        resumeButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;");
+        resumeButton.setMinWidth(150);
+        resumeButton.setMinHeight(50);
         resumeButton.setOnAction(e -> {
             keyListener.setPauseFalse();
             hide();
         });
 
         quitButton = new Button("Main Menu");
-        quitButton.setStyle("-fx-background-color: #FFD700; -fx-text-fill: black;");
+        quitButton.setOnMouseEntered(event -> quitButton.setStyle("-fx-background-color: #E0E0E0; -fx-text-fill: white; -fx-background-radius: 0;"));
+        quitButton.setOnMouseExited(event -> quitButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;"));
+        quitButton.setOnMousePressed(event -> quitButton.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: white; -fx-background-radius: 0;"));
+        quitButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;");
+        quitButton.setMinWidth(150);
+        quitButton.setMinHeight(50);
         quitButton.setOnAction(e -> {
             System.exit(0);
         });

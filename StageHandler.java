@@ -7,11 +7,13 @@ import javafx.scene.paint.Color;
 public class StageHandler {
 	
 	private int currentStage;
+	private double HEIGHT;
 	private int numStageEnemies; //number of enemies that will spawn in current stage
 	private int enemiesLeft; //number of enemies left in stage
 	private ArrayList<Enemy> enemies;
 	
-	public StageHandler() {
+	public StageHandler(double height) {
+		HEIGHT = height;
 		enemiesLeft = 0;
 		enemies = new ArrayList<>();
 		currentStage = 0;
@@ -36,24 +38,24 @@ public class StageHandler {
 	    enemiesLeft = numStageEnemies;
 	    enemies.clear();
 	    
-		double enemyWidth = 50;
-	    double enemyHeight = 50;
-	    double gap = 100;
+		double enemyWidth = 64;
+	    double enemyHeight = 64;
+	    double gap = 80;
 	    double startX = gap;
 	    double startY = 50;
 	    
 	    for (int i = 0; i < numStageEnemies; i++) {
 	        double xPos = startX + i * (enemyWidth + gap);
 	        double yPos = startY;
-	        Enemy enemy = new Enemy(enemyWidth, enemyHeight, xPos, yPos, Color.RED, "Basic");
+	        Enemy enemy = new Enemy(enemyWidth, enemyHeight, xPos, yPos, HEIGHT,  "Basic");
 	        enemies.add(enemy);
-	        System.out.println("added an enemy");
 	    }
 	}
 	
 	public void destroyEnemy() {
-		enemiesLeft -= 1;
 		System.out.println(enemiesLeft);
+		enemiesLeft -= 1;
+		
 	}
 	
 	public boolean isNewStage() {
@@ -65,7 +67,6 @@ public class StageHandler {
 	}
 	
 	public ArrayList<Enemy> getEnemies() {
-		System.out.println("Got enemy list");
 		return enemies;
 	}
 	
