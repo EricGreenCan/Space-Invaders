@@ -35,9 +35,12 @@ public class MenuPane extends Pane {
     private double scrollPosition;
     private double WIDTH; 
     private double HEIGHT;
+    public SoundManager soundManager;
 
     public MenuPane() { 
     	
+    	SoundManager soundManager = new SoundManager();
+    	soundManager.playSound();
     	this.screen = Screen.getPrimary();
         this.bounds = screen.getVisualBounds();
         this.WIDTH = bounds.getWidth();
@@ -54,7 +57,13 @@ public class MenuPane extends Pane {
         playButton.setOnMouseExited(event -> playButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;"));
         playButton.setOnMousePressed(event -> playButton.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: white; -fx-background-radius: 0;"));
         playButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;");
-        playButton.setOnAction(event -> onPlayClicked());
+        playButton.setOnAction(event -> {
+        	playS();
+        	soundManager.playSound();
+        	onPlayClicked();
+        	});
+        
+        
         playButton.setMinWidth(200);
         playButton.setMinHeight(100);
 
@@ -98,12 +107,17 @@ public class MenuPane extends Pane {
         updateBackground();
     }
 
-    public void setOnPlayClicked(EventHandler<ActionEvent> handler) {
+    public void setOnPlayClicked(@SuppressWarnings("exports") EventHandler<ActionEvent> handler) {
         playButton.setOnAction(handler);
     }
 
     private void onPlayClicked() {
+    	
         playButton.fire();
+    }
+    
+    private void playS() {
+    	soundManager.playSound();
     }
     
     public void updateBackground() {

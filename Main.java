@@ -15,7 +15,7 @@ public class Main extends Application {
     private double WIDTH; 
     private double HEIGHT;
     
-    public void start(Stage primaryStage) {
+    public void start(@SuppressWarnings("exports") Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.screen = Screen.getPrimary();
         this.bounds  = screen.getVisualBounds();

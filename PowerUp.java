@@ -16,7 +16,7 @@ public class PowerUp extends Rectangle {
     private double yPos;
     private String type;
 
-    public PowerUp(double w, double h, double x, double y, Color clr, String powerup_type, Image img) {
+    public PowerUp(double w, double h, double x, double y, @SuppressWarnings("exports") Color clr, String powerup_type, @SuppressWarnings("exports") Image img) {
         super(w, h, clr);
         xPos = x;
         yPos = y;

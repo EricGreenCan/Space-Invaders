@@ -9,20 +9,22 @@ import javafx.scene.shape.Rectangle;
 
 public class Player extends Rectangle {
 
-    private double xPos;
-    private double yPos;
+    public double xPos;
+    public double yPos;
     public double shootDelay;
     public double Speed;
+    public int lives;
     public double spread_min;
     public double spread_max;
     public boolean canShoot;
     public int score;
 
-    public Player(double w, double h, double x, double y, Image img, String type) {
+    public Player(double w, double h, double x, double y, @SuppressWarnings("exports") Image img, String type) {
         super(w, h);
         xPos = x;
         yPos = y;
         score = 0;
+        lives = 3;
         canShoot = true;
         shootDelay = 1;
         Speed = 10;
@@ -37,6 +39,15 @@ public class Player extends Rectangle {
         dropShadow.setSpread(0.2);
         setEffect(dropShadow);
     }
+    
+    public void setXPos(double x) {
+    	setLayoutX(x);
+    }
+    
+    public void setYPos(double y) {
+    	setLayoutX(y);
+    }
+    
     
     public double getSpeed() {
     	return Speed;

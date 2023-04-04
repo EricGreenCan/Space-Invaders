@@ -2,14 +2,12 @@ package application;
 
 import java.util.ArrayList;
 
-import javafx.scene.paint.Color;
-
 public class StageHandler {
 	
-	private int currentStage;
+	public int currentStage;
 	private double HEIGHT;
 	private int numStageEnemies; //number of enemies that will spawn in current stage
-	private int enemiesLeft; //number of enemies left in stage
+	public int enemiesLeft; //number of enemies left in stage
 	private ArrayList<Enemy> enemies;
 	
 	public StageHandler(double height) {
@@ -22,15 +20,7 @@ public class StageHandler {
 	
 	public void update() 
 	{
-		//System.out.println("Updated stage");
-		if (isNewStage()) {
-			System.out.println("New stage");
-			
-			
-			
-			//System.out.println(enemiesLeft);
-			
-		}
+		//NA
 	}
 	
 	public void generateNewStage() {
@@ -53,9 +43,7 @@ public class StageHandler {
 	}
 	
 	public void destroyEnemy() {
-		System.out.println(enemiesLeft);
-		enemiesLeft -= 1;
-		
+		enemiesLeft -= 1;	
 	}
 	
 	public boolean isNewStage() {

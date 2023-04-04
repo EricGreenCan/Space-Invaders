@@ -8,35 +8,27 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
-public class PauseMenu {
+public class GameOver {
 
     private StackPane overlay;
     private Button resumeButton;
     private Button quitButton;
     private GamePane gamePane;
-    private KeyListener keyListener;
     private Label titleLabel;
 
-    public PauseMenu(GamePane gamePane) {
-        this.gamePane = gamePane;
-
-        // create the pause menu overlay
+    public GameOver(GamePane gamePane) {
+        this.gamePane = gamePane;       
         overlay = new StackPane();
         overlay.setAlignment(Pos.CENTER);
-        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
-
-        // set overlay to cover entire screen
+        overlay.setStyle("-fx-background-color: rgba(235, 52, 88, 0.3);");
         Screen screen = Screen.getPrimary();
         double screenWidth = screen.getVisualBounds().getWidth();
         double screenHeight = screen.getVisualBounds().getHeight();
-        overlay.setPrefSize(screenWidth, screenHeight);
-        
-        titleLabel = new Label("Paused");
+        overlay.setPrefSize(screenWidth, screenHeight);     
+        titleLabel = new Label("Game Over");
 	    titleLabel.setFont(new javafx.scene.text.Font("Impact", 115));
 	    titleLabel.setTextFill(Color.WHITE);
-	    
-        // buttons
-        resumeButton = new Button("Resume");
+        resumeButton = new Button("Restart");
         resumeButton.setOnMouseEntered(event -> resumeButton.setStyle("-fx-background-color: #E0E0E0; -fx-text-fill: white; -fx-background-radius: 0;"));
         resumeButton.setOnMouseExited(event -> resumeButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;"));
         resumeButton.setOnMousePressed(event -> resumeButton.setStyle("-fx-background-color: #D3D3D3; -fx-text-fill: white; -fx-background-radius: 0;"));
@@ -44,7 +36,7 @@ public class PauseMenu {
         resumeButton.setMinWidth(150);
         resumeButton.setMinHeight(50);
         resumeButton.setOnAction(e -> {
-            keyListener.setPauseFalse();
+        	gamePane.resetGame();
             hide();
         });
 
@@ -62,14 +54,11 @@ public class PauseMenu {
         VBox root = new VBox(50);
         root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(titleLabel, resumeButton, quitButton);
-
         overlay.getChildren().add(root);
     }
 
     public void show(KeyListener k) {
-
         gamePane.getChildren().add(overlay);
-        keyListener = k; 
     }
 
     public void hide() {
