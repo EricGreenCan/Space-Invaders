@@ -1,12 +1,14 @@
 package application;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 
 public class GameOver {
 
@@ -17,13 +19,14 @@ public class GameOver {
     private Label titleLabel;
 
     public GameOver(GamePane gamePane) {
+    	Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.gamePane = gamePane;       
         overlay = new StackPane();
         overlay.setAlignment(Pos.CENTER);
         overlay.setStyle("-fx-background-color: rgba(235, 52, 88, 0.3);");
-        Screen screen = Screen.getPrimary();
-        double screenWidth = screen.getVisualBounds().getWidth();
-        double screenHeight = screen.getVisualBounds().getHeight();
+        //Screen screen = Screen.getPrimary();
+        double screenWidth = size.getWidth();
+        double screenHeight = size.getHeight();
         overlay.setPrefSize(screenWidth, screenHeight);     
         titleLabel = new Label("Game Over");
 	    titleLabel.setFont(new javafx.scene.text.Font("Impact", 115));

@@ -1,12 +1,14 @@
 package application;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 
 public class PauseMenu {
 
@@ -19,6 +21,7 @@ public class PauseMenu {
 
     public PauseMenu(GamePane gamePane) {
         this.gamePane = gamePane;
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
         // create the pause menu overlay
         overlay = new StackPane();
@@ -26,9 +29,8 @@ public class PauseMenu {
         overlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
 
         // set overlay to cover entire screen
-        Screen screen = Screen.getPrimary();
-        double screenWidth = screen.getVisualBounds().getWidth();
-        double screenHeight = screen.getVisualBounds().getHeight();
+        double screenWidth = size.getWidth();
+        double screenHeight = size.getHeight();
         overlay.setPrefSize(screenWidth, screenHeight);
         
         titleLabel = new Label("Paused");
@@ -67,7 +69,6 @@ public class PauseMenu {
     }
 
     public void show(KeyListener k) {
-
         gamePane.getChildren().add(overlay);
         keyListener = k; 
     }

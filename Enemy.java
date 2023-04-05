@@ -16,7 +16,6 @@ public class Enemy extends Rectangle {
 	public double yPos;
 	private double HEIGHT;
 	public double enemySpeed;
-	@SuppressWarnings("exports")
 	public Image enemyShipImage = new Image("file:" + Paths.get("").toAbsolutePath().toString() + "/Images/alien1.png");
 	
 	public Enemy(double w, double h, double x, double y, double screen_height, String type) {

@@ -15,7 +15,7 @@ public class EnemyBullet extends Rectangle {
 	private double dx;
 	private double dy;
 	
-	public EnemyBullet(double w, double h, double x, double y, @SuppressWarnings("exports") Color clr, double direction, String type) {
+	public EnemyBullet(double w, double h, double x, double y, Color clr, double direction, String type) {
 		super(w, h, clr);
 		clr = null;
 		setLayoutX(x);

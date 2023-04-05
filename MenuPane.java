@@ -1,5 +1,7 @@
 package application;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +13,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class MenuPane extends Pane {
@@ -28,29 +29,29 @@ public class MenuPane extends Pane {
     private Button exitButton;
     private Label titleLabel;
     private double scrollSpeed = .75;
-    private Screen screen;
-    private Rectangle2D bounds;
     private Timeline timeline;
     private List<ImageView> backgroundImages;
     private double scrollPosition;
     private double WIDTH; 
     private double HEIGHT;
-    public SoundManager soundManager;
+    //public SoundManager soundManager;
 
     public MenuPane() { 
     	
-    	SoundManager soundManager = new SoundManager();
-    	soundManager.playSound();
-    	this.screen = Screen.getPrimary();
-        this.bounds = screen.getVisualBounds();
-        this.WIDTH = bounds.getWidth();
-        this.HEIGHT = bounds.getHeight();
+    	Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+    	//SoundManager soundManager = new SoundManager();
+    	//soundManager.playSound();
+        this.WIDTH = size.getWidth();
+        this.HEIGHT = size.getHeight();
+        
+        //this.setAlignment(Pos.CENTER);
         
         scrollPosition = 0;
         
     	VBox content = new VBox();
         content.setAlignment(Pos.CENTER);
         content.setSpacing(50);
+        
 
         playButton = new Button("Play");
         playButton.setOnMouseEntered(event -> playButton.setStyle("-fx-background-color: #E0E0E0; -fx-text-fill: white; -fx-background-radius: 0;"));
@@ -59,10 +60,9 @@ public class MenuPane extends Pane {
         playButton.setStyle("-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-background-radius: 0;");
         playButton.setOnAction(event -> {
         	playS();
-        	soundManager.playSound();
+        	//soundManager.playSound();
         	onPlayClicked();
         	});
-        
         
         playButton.setMinWidth(200);
         playButton.setMinHeight(100);
@@ -80,11 +80,15 @@ public class MenuPane extends Pane {
         titleLabel.setFont(new javafx.scene.text.Font("Impact", 150));
         titleLabel.setTextFill(Color.WHITE);
         VBox.setMargin(titleLabel, new Insets(0, 0, 50, 0));
-        titleLabel.setMaxWidth(Double.MAX_VALUE);
+        //titleLabel.setMaxWidth(Double.MAX_VALUE);
         titleLabel.setAlignment(Pos.CENTER);
-        titleLabel.setStyle("-fx-font-size: 8vw;"); 
-
+        titleLabel.setStyle("-fx-font-size: 8vw;");
+        titleLabel.setWrapText(false); // wrap the text to multiple lines
+        titleLabel.setMaxWidth(titleLabel.prefWidth(Double.MAX_VALUE));
+        
+        //vbox.bind("<Configure>", lambda event: vbox.configure(width=title_label.winfo_width()));
         content.getChildren().addAll(titleLabel, playButton, exitButton);
+        
         
         
         backgroundImages = new ArrayList<>();
@@ -100,14 +104,19 @@ public class MenuPane extends Pane {
             backgroundImages.add(imageView);
             getChildren().add(imageView);
         }
+        double contentWidth = content.prefWidth(-1);
+        double contentHeight = content.prefHeight(-1);
+        content.setMaxHeight(Region.USE_PREF_SIZE);
+        content.setPrefSize(contentWidth, contentHeight);
+        content.setTranslateX((WIDTH - contentWidth) / 2);
+        content.setTranslateY((HEIGHT - contentHeight) / 2 - contentHeight / 2);
         
         getChildren().addAll(content);
-        content.setLayoutX(WIDTH/4);
-        content.setLayoutY(HEIGHT/4);
+       
         updateBackground();
     }
 
-    public void setOnPlayClicked(@SuppressWarnings("exports") EventHandler<ActionEvent> handler) {
+    public void setOnPlayClicked(EventHandler<ActionEvent> handler) {
         playButton.setOnAction(handler);
     }
 
@@ -117,7 +126,7 @@ public class MenuPane extends Pane {
     }
     
     private void playS() {
-    	soundManager.playSound();
+    	//soundManager.playSound();
     }
     
     public void updateBackground() {

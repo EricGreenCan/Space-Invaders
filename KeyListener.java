@@ -13,10 +13,9 @@ public class KeyListener {
 
     private Scene scene;
     private boolean isPaused;
-    @SuppressWarnings("exports")
-	public ObservableSet<KeyCode> downKeys;
+    public ObservableSet<KeyCode> downKeys;
     
-    public KeyListener(@SuppressWarnings("exports") Scene scene) {
+    public KeyListener(Scene scene) {
         this.scene = scene;
         this.isPaused = false;
         downKeys = FXCollections.observableSet();

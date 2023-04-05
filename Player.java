@@ -19,7 +19,7 @@ public class Player extends Rectangle {
     public boolean canShoot;
     public int score;
 
-    public Player(double w, double h, double x, double y, @SuppressWarnings("exports") Image img, String type) {
+    public Player(double w, double h, double x, double y, Image img, String type) {
         super(w, h);
         xPos = x;
         yPos = y;

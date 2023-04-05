@@ -15,7 +15,7 @@ public class Bullet extends Rectangle {
 	private double dx;
 	private double dy;
 	
-	public Bullet(double w, double h, double x, double y, @SuppressWarnings("exports") Color clr, double direction, String type) {
+	public Bullet(double w, double h, double x, double y, Color clr, double direction, String type) {
 		super(w, h, clr);
 		setLayoutX(x);
 		setLayoutY(y);

@@ -1,17 +1,22 @@
 package application;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 public class StageHandler {
 	
 	public int currentStage;
 	private double HEIGHT;
+	private double WIDTH;
 	private int numStageEnemies; //number of enemies that will spawn in current stage
 	public int enemiesLeft; //number of enemies left in stage
 	private ArrayList<Enemy> enemies;
+	public Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public StageHandler(double height) {
 		HEIGHT = height;
+		WIDTH = size.getWidth();
 		enemiesLeft = 0;
 		enemies = new ArrayList<>();
 		currentStage = 0;
@@ -30,9 +35,9 @@ public class StageHandler {
 	    
 		double enemyWidth = 64;
 	    double enemyHeight = 64;
-	    double gap = 80;
+	    double gap = WIDTH/(numStageEnemies*2.2);
 	    double startX = gap;
-	    double startY = 50;
+	    double startY = -125;
 	    
 	    for (int i = 0; i < numStageEnemies; i++) {
 	        double xPos = startX + i * (enemyWidth + gap);

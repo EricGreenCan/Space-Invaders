@@ -12,14 +12,12 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class GamePane extends Pane {
@@ -36,11 +34,14 @@ public class GamePane extends Pane {
     public static List<Bullet> bullets = new ArrayList<>();
     public static List<EnemyBullet> enemy_bullets = new ArrayList<>();
     public static List<Enemy> enemies = new ArrayList<>();
-    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static List<Explosion> explosions = new ArrayList<>();
+    public static List<Bullet> bulletsToRemove = new ArrayList<>();
+    public static List<Enemy> enemiesToRemove = new ArrayList<>();
+    public static List<PowerUp> powerupsToRemove = new ArrayList<>();
+    public static List<EnemyBullet> enemy_bulletsToRemove = new ArrayList<>();
+    public static List<Explosion> explosionsToRemove = new ArrayList<>();
     private Label stageLabel;
     public StageHandler stageHandler;
-    private Screen screen;
-    private Rectangle2D bounds;
     private double WIDTH; 
     private double HEIGHT;
     private double random_angle;
@@ -49,11 +50,9 @@ public class GamePane extends Pane {
     Player player;
     
     public GamePane() {
-    	
-        this.screen = Screen.getPrimary();
-        this.bounds = screen.getVisualBounds();
-        this.WIDTH = bounds.getWidth();
-        this.HEIGHT = bounds.getHeight();
+    	Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        this.WIDTH = size.getWidth();
+        this.HEIGHT = size.getHeight();
         powerups = new ArrayList<>();
         min = 0;
         max = 100;
@@ -87,7 +86,7 @@ public class GamePane extends Pane {
 
         Image shipImage = new Image("file:" + Paths.get("").toAbsolutePath().toString() + "/Images/ship.png");
 
-        player = new Player(64, 64, (screenSize.getWidth() - 50) / 2, screenSize.getHeight() - 70, shipImage, "player");
+        player = new Player(64, 64, (WIDTH - 50) / 2, HEIGHT - 70, shipImage, "player");
 
         getChildren().addAll(stageLabel, player);
     }
@@ -158,10 +157,7 @@ public class GamePane extends Pane {
             delay.play();
         }
         
-        List<Bullet> bulletsToRemove = new ArrayList<>();
-        List<Enemy> enemiesToRemove = new ArrayList<>();
-        List<PowerUp> powerupsToRemove = new ArrayList<>();
-        List<EnemyBullet> enemy_bulletsToRemove = new ArrayList<>();
+        
          
         for (Bullet bullet : bullets) {
             bullet.update();
@@ -185,8 +181,11 @@ public class GamePane extends Pane {
                     		Image speedup_img = new Image("file:" + Paths.get("").toAbsolutePath().toString() + "/Images/fireup.png");                    		
                     		PowerUp powerup = new PowerUp(32, 32, enemy.getXPos(), enemy.getYPos(), Color.BLUE,  "move_speed", speedup_img);
                     		powerups.add(powerup);
-                    		getChildren().addAll(powerup);
+                    		getChildren().add(powerup);
                     	}
+                    	Explosion explosion = new Explosion(enemy.getXPos(), enemy.getYPos());
+                    	explosions.add(explosion);
+                    	getChildren().add(explosion);
                         bulletsToRemove.add(bullet);
                         enemiesToRemove.add(enemy);
                         stageHandler.destroyEnemy();
@@ -200,6 +199,19 @@ public class GamePane extends Pane {
         getChildren().removeAll(bulletsToRemove);
         getChildren().removeAll(enemiesToRemove);
         getChildren().removeAll(powerupsToRemove);
+        bulletsToRemove.clear();
+        enemiesToRemove.clear();
+        powerupsToRemove.clear();
+        
+        for (Explosion explosion : explosions) {
+        	if(explosion.animationDone()){
+        		explosionsToRemove.add(explosion);
+        		explosion.stopAnimation();
+        	}
+        }
+        explosions.removeAll(explosionsToRemove);
+        getChildren().removeAll(explosionsToRemove);
+        explosionsToRemove.clear();
         
         for(Enemy enemy : enemies) {
             enemy.update();
@@ -227,6 +239,7 @@ public class GamePane extends Pane {
         }
         enemy_bullets.removeAll(enemy_bulletsToRemove);
         getChildren().removeAll(enemy_bulletsToRemove);
+        enemy_bulletsToRemove.clear();
         
         
         if(stageHandler.isNewStage()) {
@@ -252,8 +265,8 @@ public class GamePane extends Pane {
     	stageHandler.currentStage = 0;
     	toggle = false;
     	player.lives = 3;
-    	player.xPos = (screenSize.getWidth() - 50) / 2;
-    	player.yPos = screenSize.getHeight() - 70;
+    	player.xPos = (WIDTH - 50) / 2;
+    	player.yPos = HEIGHT - 70;
     }
     
     private void render() {
